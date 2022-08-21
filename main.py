@@ -1,5 +1,5 @@
 from classes.game import Person, bcolors
-
+#niv
 
 magic = [{"name": "fire", "cost": 10, "dmg": 60},
          {"name": "Thunder", "cost": 12, "dmg": 80},
