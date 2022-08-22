@@ -1,17 +1,26 @@
 from classes.game import Person, bcolors
-#niv
+from classes.Magic import Spell
 
-magic = [{"name": "fire", "cost": 10, "dmg": 60},
-         {"name": "Thunder", "cost": 12, "dmg": 80},
-         {"name": "Blizzard", "cost": 10, "dmg": 60}]
+# Black magic
+fire = Spell("Fire", 10, 100, "black")
+thunder = Spell("Thunder", 15, 200, "black")
+blizzard = Spell("Blizzard", 12, 150, "black")
+meteor = Spell("Meteor", 20, 225, "black")
+quake = Spell("Quake", 10, 100, "black")
+
+# White magic
+cure = Spell("Cure", 12, 120, "white")
+cura = Spell("Cura", 18, 200, "white")
+
+magic = [fire, thunder, blizzard, meteor, quake, cure, cura]
 
 player = Person(450, 65, 60, 34, magic)
-enemy = Person(500, 65, 45 ,25,magic)
+enemy = Person(500, 65, 45, 25, magic)
 
 run = True
 
-##when we want to wrap text with color
-print(bcolors.FAIL + bcolors.BOLD + "AN ENEMY ATTACK!" +bcolors.ENDC)
+# when we want to wrap text with color
+print(bcolors.FAIL + bcolors.BOLD + "AN ENEMY ATTACK!" + bcolors.ENDC)
 
 while run:
     print("==================")
@@ -27,23 +36,24 @@ while run:
     elif index == 1:
         player.choose_magic()
         magic_number = int(input("choose Magic:")) - 1
-        magic_dmg = player.generate_spell_damage(magic_number)
-        spell = player.get_magic_name(magic_number)
-        cost = player.get_magic_cost(magic_number)
 
+        spell = player.magic[magic_number]
+        magic_dmg = spell.generate_spell_damage()
         curr_mp = player.get_mp()
 
-        if cost > curr_mp:
-            print(bcolors.FAIL+ "\nnot enough MP\n" + bcolors.ENDC)
+        if spell.cost > curr_mp:
+            print(bcolors.FAIL + "\nnot enough MP\n" + bcolors.ENDC)
             continue
-
-        player.reduce_mp(cost)
-        enemy.take_damage(magic_dmg)
-        print(bcolors.OKBLUE + "\n"+ spell + " deals " + str(magic_dmg) + bcolors.ENDC)
-
+        player.reduce_mp(spell.cost)
+        if spell.type == "white":
+            player.heal(magic_dmg)
+            print(bcolors.OKBLUE + "\n" + spell.name + " heals for " + str(magic_dmg) + bcolors.ENDC)
+        else:
+            enemy.take_damage(magic_dmg)
+            print(bcolors.OKBLUE + "\n" + spell.name + " deals " + str(magic_dmg) + bcolors.ENDC)
 
     enemy_choice = 1
-    enemy_dmg =enemy.generate_damage()
+    enemy_dmg = enemy.generate_damage()
     player.take_damage(enemy_dmg)
 
     print("Enemy attacked for", enemy_dmg)

@@ -12,7 +12,7 @@ class bcolors:
 
 class Person:
 
-    def __init__(self,hp,mp,atk,df,magic):
+    def __init__(self, hp, mp, atk, df, magic):
         self.maxhp = hp  #score
         self.hp = hp
         self.maxmp = mp  ##magic_points
@@ -25,11 +25,6 @@ class Person:
 
     def generate_damage(self):
         return random.randrange(self.atkl,self.atkh)
-
-    def generate_spell_damage(self, index):
-        magic_low = self.magic[index]["dmg"] - 5
-        magic_high = self.magic[index]["dmg"] + 5
-        return random.randrange(magic_low, magic_high)
 
     def take_damage(self, dmg):
         self.hp -= dmg
@@ -81,7 +76,9 @@ class Person:
         i = 1
         print(bcolors.OKBLUE + "Magic:" + bcolors.ENDC)
         for spell in self.magic:
-            print(str(i) + "." + spell["name"] , "cost:", str(spell["cost"]))
+            print(str(i) + "." + spell.name + ", cost:", str(spell.cost))
             i += 1
+
+
 
 
