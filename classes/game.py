@@ -14,7 +14,7 @@ class bcolors:
 
 class Person:
 
-    def __init__(self, hp, mp, atk, df, magic, item):
+    def __init__(self,name , hp, mp, atk, df, magic, item):
         self.maxhp = hp  # score
         self.hp = hp
         self.maxmp = mp  # magic_points
@@ -25,6 +25,7 @@ class Person:
         self.magic = magic
         self.item = item
         self.actions = ["Attack", "Magic", "Item"]
+        self.name = name
 
     def generate_damage(self):
         return random.randrange(self.atkl ,self.atkh)
@@ -61,6 +62,24 @@ class Person:
 
     def reduce_mp(self , cost):
         self.mp -= cost
+    def get_stat(self):
+        print(
+            bcolors.BOLD + self.name + ":  "+ str(self.hp) + "/"+ str(self.maxhp) +"  |" + bcolors.OKGREEN + str(self.stat_hp()) + bcolors.ENDC + "|  " +str(self.mp)+"/"+ str(self.maxmp)  +"  |" + bcolors.OKBLUE + str(self.stat_mp()) + bcolors.ENDC + "|\n")
+    def stat_hp(self):
+        i = self.hp/self.maxhp * 12
+        p = "█"
+        while i > 0:
+            p = p + "█"
+            i = i - 1
+        return p
+
+    def stat_mp(self):
+        i = self.mp / self.maxmp * 12
+        p = "█"
+        while i > 0:
+            p = p + "█"
+            i = i - 1
+        return p
 
     def get_magic_name(self , index):
         return self.magic[index]["name"]
